@@ -1,4 +1,8 @@
-// Variables
+// Variables for random special characters, uppercase letters, lowercase letters, and numbers
+var specials = ['!','@','#','$','%','^','&','*','(',')','-','_','+','~',];
+var uppers = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'];
+var lowers = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'];
+var numbers = ['0','1','2','3','4','5','6','7','8','9'];
 
 
 // Series of prompts/alerts for user to select password criteria
@@ -52,20 +56,52 @@ function passwordCriteria() {
 
   // If user does not confirm to include any of the characters, alert and start over
   if (!includeSpecials && !includeUppers && !includeLowers && !includeNumbers) {
-    alert("Password must contain at least one character type")
+    alert("Password must contain at least one character type");
     return null;
   }
+
+  // Users selections stored in object 
+  var criteriaSelections = {
+    passLength: passLength,
+    includeSpecials: includeSpecials,
+    includeUppers: includeUppers,
+    includeLowers: includeLowers,
+    includeNumbers: includeNumbers,
+  };
+
+  // @ end - function should return all user selections to be included in their password
+  return criteriaSelections; 
 }
+
+// Function to select a random upper/lowercase letters, numbers, and/or symbols
+// Need simpler function that can be called to generate random for each array (Possible to target all array [like how you can target elements] w a function?)
+// other option is to group each character array w their own Math.floor(Math.random()), so i can select the return randoms for each character type?
+function getRandomCriteria() {
+  var getRandomSpecials = specials[Math.floor(Math.random() * specials.length)];
+  var getRandomUppers = uppers[Math.floor(Math.random() * uppers.length)];
+  var getRandomLowers = lowers[Math.floor(Math.random() * lowers.length)];
+  var getRandomNumbers = numbers[Math.floor(Math.random() * numbers.length)];
+}
+
 
 // Function to generate a random password based on the users selected criteria 
 function generatePassword() {
   //get the criteria to include in the password from passwordCriteria function
   var criteria = passwordCriteria();
-//placeholder to make sure passwordCritera is working correctly
+
+  // Repeating if statements for each character set the user chooses to include (maybe use .concat and/or .push? [result = new string?])
+
+  // Possibly use a for loop to get the random selection from the character arrays to continue selecting characters as long as < passLength
+
+  // Need to make sure at least one of each desired character type is included in password (Possibly use for loop?)
+
+  // May need to transform resulting array into a string so it can be written in writePassword???
+
 }
 
 
-// Function to select a random upper/lowercase letters, numbers, and/or symbols
+
+
 
 // Get references to the #generate element
 var generateBtn = document.querySelector("#generate");
