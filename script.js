@@ -1,4 +1,5 @@
-// Variables for random special characters, uppercase letters, lowercase letters, and numbers
+// Variables for all possible special characters, uppercase letters, lowercase letters, and numbers
+// Variables for random selection of each character type
 var specials = ['!','@','#','$','%','^','&','*','(',')','-','_','+','~',];
 var randomSpecials = specials[Math.floor(Math.random() * specials.length)];
 var uppers = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'];
@@ -37,7 +38,6 @@ function passwordCriteria() {
     alert('Password length must less than 129 characters');
     return null;
   }
-
 
   var includeSpecials = confirm("Click 'OK' to include special characters in your password");
   
@@ -92,45 +92,64 @@ function generatePassword() {
   // get the criteria to include in the password from passwordCriteria function
   var criteria = passwordCriteria();
 
+   // if criteria has not been completed, exit function
+   if (!criteria) return null;
+
   // Empty array to hold all possible characters as needed
   var allPossible = [];
+
+  // Empty array to ensure at least one of each desired character is used in password
+  var atLeastOne = [];
 
   // Empty array to hold result
   var result = [];
 
-  // if criteria has not been completed, exit function
-  if (!criteria) return null;
-
   //repeating if statements to join array's of characters that user selects to the allPossible array
   if (criteria.includeSpecials) {
-    allPossible = allPossible.concat(randomSpecials);
+    allPossible = allPossible.concat(specials);
+    //a random from each specials will be added atLeastOne array
+    atLeastOne.push(randomSpecials);
   }
 
   if (criteria.includeUppers) {
-    allPossible = allPossible.concat(randomUppers);
+    allPossible = allPossible.concat(uppers);
+    //a random from each uppers will be added atLeastOne array
+    atLeastOne.push(randomUppers);
   }
 
   if (criteria.includeLowers) {
-    allPossible = allPossible.concat(randomLowers)
+    allPossible = allPossible.concat(lowers)
+    //a random from each lowers will be added atLeastOne array
+    atLeastOne.push(randomLowers);
   }
 
   if (criteria.includeNumbers) {
-    allPossible = allPossible.concat(randomNumbers);
+    allPossible = allPossible.concat(numbers);
+    //a random from each numbers will be added atLeastOne array
+    atLeastOne.push(randomNumbers);
   }
 
-  var getRandomPossible = allPossible[Math.floor(Math.random() * allPossible.length)];
 
   // function should continue as long as length is shorter than length from the criteria object
   for (var i = 0; i < criteria.passLength; i++) {
-    var allPossible = getRandomPossible;
-
-    result.push(allPossible);
+    var getRandomPossible = allPossible[Math.floor(Math.random() * allPossible.length)];
+    //add result of getRandomPossible to result array
+    result.push(getRandomPossible);
   } 
 
-  return result.toString();
+  
+  // function to make sure that one of each type is used
+  // while i is less than length of atLeastOne, repeat incriments of 1,
+  for (var i = 0; i < atLeastOne.length; i++) {
+    var getRandomOne = atLeastOne[Math.floor(Math.random()* atLeastOne.length)];
+    //add result of getRandomOne to result array
+    result.push(getRandomOne);
+  }
+
+  // will return 'result' array withoug commas or spaces
+  return result.join('');
 }
 
-// CURENT PROBLEM: generate random will choose one random element from allPossible and repeat it over passLength
 
 
 // Get references to the #generate element
