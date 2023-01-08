@@ -1,30 +1,43 @@
 // Variables for random special characters, uppercase letters, lowercase letters, and numbers
 var specials = ['!','@','#','$','%','^','&','*','(',')','-','_','+','~',];
+var randomSpecials = specials[Math.floor(Math.random() * specials.length)];
 var uppers = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'];
+var randomUppers = uppers[Math.floor(Math.random() * uppers.length)];
 var lowers = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'];
+var randomLowers = lowers[Math.floor(Math.random() * lowers.length)];
 var numbers = ['0','1','2','3','4','5','6','7','8','9'];
+var randomNumbers = numbers[Math.floor(Math.random() * numbers.length)];
 
 
 // Series of prompts/alerts for user to select password criteria
 function passwordCriteria() {
-  //parsInt turns text respond [string] into an integer, radix 10 for numbers 0-9)
-  var passLength = parseInt(prompt('How many characters should your password contain?'), 10);
+  // passlength will be read as a number 
+  var passLength = Number(prompt('How many characters should your password contain?'));
+
+  // Ensure value must be entered as a number
+  if (Number.isNaN(passLength)) {
+    alert('Desired length must be entered as a number');
+    return null;
+  }
 
   // If user does not imput a number, they will view alert and function will start over
   if (!passLength) {
     alert('Password length must be provided');
-    return passwordCriteria;
+    return null;
   }
 
   // Length must be greater or equal to 8
   if (passLength < 8) {
     alert('Password length must be at least 8 characters');
+    return null;
   }
 
   // Length connot be greater than 128
   if (passLength > 128) {
     alert('Password length must less than 129 characters');
+    return null;
   }
+
 
   var includeSpecials = confirm("Click 'OK' to include special characters in your password");
   
@@ -73,34 +86,51 @@ function passwordCriteria() {
   return criteriaSelections; 
 }
 
-// Function to select a random upper/lowercase letters, numbers, and/or symbols
-// Need simpler function that can be called to generate random for each array (Possible to target all array [like how you can target elements] w a function?)
-// other option is to group each character array w their own Math.floor(Math.random()), so i can select the return randoms for each character type?
-function getRandomCriteria() {
-  var getRandomSpecials = specials[Math.floor(Math.random() * specials.length)];
-  var getRandomUppers = uppers[Math.floor(Math.random() * uppers.length)];
-  var getRandomLowers = lowers[Math.floor(Math.random() * lowers.length)];
-  var getRandomNumbers = numbers[Math.floor(Math.random() * numbers.length)];
-}
-
 
 // Function to generate a random password based on the users selected criteria 
 function generatePassword() {
-  //get the criteria to include in the password from passwordCriteria function
+  // get the criteria to include in the password from passwordCriteria function
   var criteria = passwordCriteria();
 
-  // Repeating if statements for each character set the user chooses to include (maybe use .concat and/or .push? [result = new string?])
+  // Empty array to hold all possible characters as needed
+  var allPossible = [];
 
-  // Possibly use a for loop to get the random selection from the character arrays to continue selecting characters as long as < passLength
+  // Empty array to hold result
+  var result = [];
 
-  // Need to make sure at least one of each desired character type is included in password (Possibly use for loop?)
+  // if criteria has not been completed, exit function
+  if (!criteria) return null;
 
-  // May need to transform resulting array into a string so it can be written in writePassword???
+  //repeating if statements to join array's of characters that user selects to the allPossible array
+  if (criteria.includeSpecials) {
+    allPossible = allPossible.concat(randomSpecials);
+  }
 
+  if (criteria.includeUppers) {
+    allPossible = allPossible.concat(randomUppers);
+  }
+
+  if (criteria.includeLowers) {
+    allPossible = allPossible.concat(randomLowers)
+  }
+
+  if (criteria.includeNumbers) {
+    allPossible = allPossible.concat(randomNumbers);
+  }
+
+  var getRandomPossible = allPossible[Math.floor(Math.random() * allPossible.length)];
+
+  // function should continue as long as length is shorter than length from the criteria object
+  for (var i = 0; i < criteria.passLength; i++) {
+    var allPossible = getRandomPossible;
+
+    result.push(allPossible);
+  } 
+
+  return result.toString();
 }
 
-
-
+// CURENT PROBLEM: generate random will choose one random element from allPossible and repeat it over passLength
 
 
 // Get references to the #generate element
