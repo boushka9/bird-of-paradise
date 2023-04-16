@@ -8,7 +8,7 @@
 The purpose of this project was to create a basic customizable password generator by allowing the user to determine what criteria they want to include in their password. Based on their chosen criteria, the user will see their password appear on the screen. The features that allow the user to choose what character types to include in their password were created with basic JavaScript such as window prompts, alerts, and confirm messages. The features that print a randomized password onto the screen for the user were created using JavaScript variables, functions, for loops, and methods such as Math.random() and Math.floor().
 
 
-## <img src="./assets/Installation.png" alt="Installation Header" height="40px">
+## <img src="./assets/installation.png" alt="Installation Header" height="40px">
 
 No installation is necessary for this application. Visit https://boushka9.github.io/bird-of-paradise/ to access the deployed project.
 
